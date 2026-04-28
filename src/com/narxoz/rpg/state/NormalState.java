@@ -5,7 +5,7 @@ import com.narxoz.rpg.combatant.Hero;
 public class NormalState implements HeroState {
 
     @Override
-    public String getName() { return "Обычное"; }
+    public String getName() { return "Simple"; }
 
     @Override
     public int modifyOutgoingDamage(int basePower) {
