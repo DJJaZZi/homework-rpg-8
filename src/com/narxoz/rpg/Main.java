@@ -1,17 +1,41 @@
 package com.narxoz.rpg;
 
-/**
- * Entry point for Homework 8 — The Haunted Tower: Ascending the Floors.
- *
- * Build your heroes, floors, tower runner, and execute the climb here.
- */
-public class Main {
+import com.narxoz.rpg.combatant.Hero;
+import com.narxoz.rpg.floor.CombatFloor;
+import com.narxoz.rpg.floor.RestFloor;
+import com.narxoz.rpg.floor.TowerFloor;
+import com.narxoz.rpg.floor.TrapFloor;
+import com.narxoz.rpg.state.NormalState;
+import com.narxoz.rpg.state.StunnedState;
+import com.narxoz.rpg.tower.TowerRunResult;
+import com.narxoz.rpg.tower.TowerRunner;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
     public static void main(String[] args) {
-        // TODO (student): Create at least 2 heroes with different starting states
-        // TODO (student): Create a sequence of ≥ 4 floors using ≥ 3 distinct floor subclasses
-        // TODO (student): Instantiate a tower runner and execute the tower climb
-        // TODO (student): Track and print results (floors cleared, heroes surviving, tower status)
-        // TODO (student): Demonstrate visible state transitions in the output
+        Hero hero1 = new Hero("Knight Leon", 100, 20, 10);
+        hero1.setState(new NormalState());
+
+        Hero hero2 = new Hero("Mage Elliot", 70, 35, 5);
+        hero2.setState(new StunnedState());
+
+        List<Hero> party = Arrays.asList(hero1, hero2);
+
+        List<TowerFloor> floors = new ArrayList<>();
+        floors.add(new TrapFloor());
+        floors.add(new CombatFloor());
+        floors.add(new RestFloor());
+        floors.add(new CombatFloor());
+
+        TowerRunner runner = new TowerRunner(floors);
+        TowerRunResult result = runner.runTower(party);
+
+        System.out.println("\n=== ASCENT SUMMARY ===");
+        System.out.println("Floors passed: " + result.getFloorsCleared() + " out of " + floors.size());
+        System.out.println("Alive heroes: " + result.getHeroesSurviving());
+        System.out.println("Tower was defeated: " + (result.isReachedTop() ? "Yes!" : "No..."));
     }
 }
